@@ -6,16 +6,16 @@ namespace Easy_Rent_API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CarTypologyController: ControllerBase
+    public class CarTypologyController : ControllerBase
     {
         private readonly ICarTypologiesServices _services;
-        public CarTypologyController(ICarTypologiesServices services )
+        public CarTypologyController(ICarTypologiesServices services)
         {
             this._services = services;
-            
+
         }
         [HttpPost]
-        public IActionResult AddCarTypology([FromQuery ]string carTypology)
+        public IActionResult AddCarTypology([FromQuery] string carTypology)
         {
 
             if (string.IsNullOrEmpty(carTypology))
@@ -26,9 +26,10 @@ namespace Easy_Rent_API.Controllers
             try
             {
                 this._services.addCarTypology(carTypology);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);
             }
 
             return Ok("Car typology created with success");
@@ -40,28 +41,36 @@ namespace Easy_Rent_API.Controllers
             return Ok(_services.getCartypologies());
         }
 
-        [HttpDelete]
-        public IActionResult DeleteCarTypology([FromQuery] int id )
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCarTypology(int id)
         {
             try
             {
                 _services.deleteCarTypology(id);
-            } catch (Exception ex) { 
-            return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
             return Ok("Car typology deleted with success");
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult UpdateCarTypology(carTypology model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Model not valid");
+            }
+
             try
             {
                 _services.updateCarTypology(model);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);
             }
 
             return Ok("Typology Car updated with success");

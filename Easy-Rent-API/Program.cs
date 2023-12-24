@@ -15,7 +15,11 @@ builder.Services.AddSwaggerGen();
 //Configure the db
 var connectionString = builder.Configuration.GetConnectionString("EasyRentDB");
 builder.Services.AddDbContext<EasyRentContext>(optiions => optiions.UseSqlServer(connectionString));
+
+//Services Dependecy injection
 builder.Services.AddScoped<ICarTypologiesServices, CarTypologiesServices>();
+builder.Services.AddScoped<IPowerSourcesServices, PowerSourceServices>();
+
 
 var app = builder.Build();
 

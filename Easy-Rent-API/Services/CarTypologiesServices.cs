@@ -69,7 +69,11 @@ namespace Easy_Rent_API.Services
             {
                 throw new Exception($"Typology car with id: {model.Id} not found");
             }
-
+            carTypology alreadyExist = _context.carTypologies.FirstOrDefault(c => c.description.ToLower() == model.description.ToLower());
+            if(alreadyExist != null)
+            {
+                throw new Exception($"Typology car with description:{model.description} already exist");
+            }
             carTypology.description = model.description;
             _context.Update(carTypology);
             _context.SaveChanges();
