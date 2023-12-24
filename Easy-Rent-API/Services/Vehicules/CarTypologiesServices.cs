@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 
-namespace Easy_Rent_API.Services
+namespace Easy_Rent_API.Services.Vehicules
 {
     public class CarTypologiesServices : ICarTypologiesServices
 
@@ -13,7 +13,7 @@ namespace Easy_Rent_API.Services
 
         public CarTypologiesServices(EasyRentContext context)
         {
-            this._context = context;
+            _context = context;
         }
         void ICarTypologiesServices.addCarTypology(string carTypology)
 
@@ -70,7 +70,7 @@ namespace Easy_Rent_API.Services
                 throw new Exception($"Typology car with id: {model.Id} not found");
             }
             carTypology alreadyExist = _context.carTypologies.FirstOrDefault(c => c.description.ToLower() == model.description.ToLower());
-            if(alreadyExist != null)
+            if (alreadyExist != null)
             {
                 throw new Exception($"Typology car with description:{model.description} already exist");
             }

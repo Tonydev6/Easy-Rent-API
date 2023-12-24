@@ -2,7 +2,7 @@
 using Easy_Rent_API.Models.Vehicules;
 using System.Collections;
 
-namespace Easy_Rent_API.Services
+namespace Easy_Rent_API.Services.Vehicules
 {
     public class PowerSourceServices : IPowerSourcesServices
 
@@ -15,7 +15,7 @@ namespace Easy_Rent_API.Services
         void IPowerSourcesServices.AddPowerSource(string input)
         {
             PowerSource alreadyExist = _context.powerSources.FirstOrDefault(p => p.description.ToLower() == input.ToLower());
-            if(alreadyExist != null)
+            if (alreadyExist != null)
             {
                 throw new Exception("This Power Source already exist");
             }
@@ -51,7 +51,7 @@ namespace Easy_Rent_API.Services
             if (powerSources == null)
             {
                 throw new Exception($"Power Source with id:{model.Id} not found");
-            } 
+            }
 
 
             PowerSource alreadyExist = _context.powerSources.FirstOrDefault(p => p.description.ToLower() == model.description.ToLower());

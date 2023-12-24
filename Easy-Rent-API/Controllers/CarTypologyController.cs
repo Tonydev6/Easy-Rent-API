@@ -1,5 +1,5 @@
 ﻿using Easy_Rent_API.Models.Vehicules;
-using Easy_Rent_API.Services;
+using Easy_Rent_API.Services.Vehicules;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easy_Rent_API.Controllers

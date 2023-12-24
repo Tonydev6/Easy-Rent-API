@@ -1,4 +1,6 @@
-﻿namespace Easy_Rent_API.Models.Vehicules
+﻿using Easy_Rent_API.Entities.Vehicules;
+
+namespace Easy_Rent_API.Models.Vehicules
 {
     public class Vehicule
     {
@@ -12,6 +14,7 @@
 
         public PowerSource powerSource { get; set; }    
 
+        public Transmission transmission { get; set; }
 
     }
 }

@@ -1,5 +1,5 @@
 using Easy_Rent_API.Context;
-using Easy_Rent_API.Services;
+using Easy_Rent_API.Services.Vehicules;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -19,6 +19,8 @@ builder.Services.AddDbContext<EasyRentContext>(optiions => optiions.UseSqlServer
 //Services Dependecy injection
 builder.Services.AddScoped<ICarTypologiesServices, CarTypologiesServices>();
 builder.Services.AddScoped<IPowerSourcesServices, PowerSourceServices>();
+builder.Services.AddScoped<IVehiculesServices, VehiculesServices>();
+
 
 
 var app = builder.Build();

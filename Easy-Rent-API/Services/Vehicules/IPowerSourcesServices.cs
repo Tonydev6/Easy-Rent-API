@@ -1,7 +1,7 @@
 ﻿using Easy_Rent_API.Models.Vehicules;
 using System.Collections;
 
-namespace Easy_Rent_API.Services
+namespace Easy_Rent_API.Services.Vehicules
 {
     public interface IPowerSourcesServices
     {

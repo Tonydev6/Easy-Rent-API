@@ -4,6 +4,7 @@ using Easy_Rent_API.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Easy_Rent_API.Migrations
 {
     [DbContext(typeof(EasyRentContext))]
-    partial class EasyRentContextModelSnapshot : ModelSnapshot
+    [Migration("20231224202315_AddTransmition")]
+    partial class AddTransmition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,28 +42,6 @@ namespace Easy_Rent_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("transmitions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            description = "manual"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            description = "automatic"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            description = "semiAutomatic"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            description = "Continuosly Variable Transmission"
-                        });
                 });
 
             modelBuilder.Entity("Easy_Rent_API.Models.Vehicules.PowerSource", b =>
