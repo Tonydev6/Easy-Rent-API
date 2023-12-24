@@ -1,4 +1,5 @@
 using Easy_Rent_API.Context;
+using Easy_Rent_API.Services.Locations;
 using Easy_Rent_API.Services.Vehicules;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -20,6 +21,8 @@ builder.Services.AddDbContext<EasyRentContext>(optiions => optiions.UseSqlServer
 builder.Services.AddScoped<ICarTypologiesServices, CarTypologiesServices>();
 builder.Services.AddScoped<IPowerSourcesServices, PowerSourceServices>();
 builder.Services.AddScoped<IVehiculesServices, VehiculesServices>();
+builder.Services.AddScoped<ILocationsServices, LocationServices>();
+
 
 
 

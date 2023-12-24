@@ -1,4 +1,5 @@
-﻿using Easy_Rent_API.Entities.Vehicules;
+﻿using Easy_Rent_API.Entities.Locations;
+using Easy_Rent_API.Entities.Vehicules;
 using Easy_Rent_API.Models.Vehicules;
 using Microsoft.EntityFrameworkCore;
 namespace Easy_Rent_API.Context
@@ -9,6 +10,7 @@ namespace Easy_Rent_API.Context
         public DbSet<PowerSource> powerSources { get; set; }
         public DbSet<carTypology> carTypologies { get; set; }
         public DbSet<Transmission> transmitions { get; set; }
+        public DbSet<Location> locations { get; set; }
 
 
         public EasyRentContext(DbContextOptions<EasyRentContext> options) : base(options)
