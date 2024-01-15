@@ -17,7 +17,7 @@ namespace Easy_Rent_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddVehicule(InsertVehicule model)
+        public async Task <IActionResult> AddVehicule(InsertVehicule model)
         {
             if (!ModelState.IsValid)
             {
@@ -36,18 +36,18 @@ namespace Easy_Rent_API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllVehicules()
+        public async Task <IActionResult> GetAllVehicules()
         {
             return Ok(_services.GetAllVehicules());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetVehicule(ulong id)
+        public async Task <IActionResult> GetVehicule(ulong id)
         {
             Vehicule result = new Vehicule();
             try
             {
-                result = _services.GetVehiculeById(id);
+                result = await _services.GetVehiculeById(id);
             }
             catch (Exception e)
             {
@@ -57,7 +57,7 @@ namespace Easy_Rent_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateVehicule(ulong id, InsertVehicule model)
+        public async Task <IActionResult> UpdateVehicule(ulong id, InsertVehicule model)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace Easy_Rent_API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteVehicule(ulong id)
+        public async Task <IActionResult> DeleteVehicule(ulong id)
         {
             try
             {

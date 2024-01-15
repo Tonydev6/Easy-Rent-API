@@ -2,6 +2,7 @@
 using Easy_Rent_API.Models.Vehicules;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections;
 
 namespace Easy_Rent_API.Services.Vehicules
@@ -15,10 +16,10 @@ namespace Easy_Rent_API.Services.Vehicules
         {
             _context = context;
         }
-        void ICarTypologiesServices.addCarTypology(string carTypology)
+        async void ICarTypologiesServices.addCarTypology(string carTypology)
 
         {
-            carTypology alreadyExist = _context.carTypologies.FirstOrDefault(c => c.description == carTypology);
+            carTypology alreadyExist =await _context.carTypologies.FirstOrDefaultAsync(c => c.description == carTypology);
 
             if (alreadyExist != null)
             {
@@ -29,8 +30,8 @@ namespace Easy_Rent_API.Services.Vehicules
             insertTypology.description = carTypology;
             try
             {
-                _context.Add(insertTypology);
-                _context.SaveChanges();
+                _context.AddAsync(insertTypology);
+                _context.SaveChangesAsync();
 
             }
             catch (Exception ex)
@@ -42,41 +43,41 @@ namespace Easy_Rent_API.Services.Vehicules
 
 
         }
-        IEnumerable ICarTypologiesServices.getCartypologies()
+        async Task <IEnumerable> ICarTypologiesServices.getCartypologies()
         {
-            List<carTypology> carTypologies = _context.carTypologies.ToList();
+            List<carTypology> carTypologies = await _context.carTypologies.ToListAsync();
 
             return carTypologies;
         }
 
 
-        void ICarTypologiesServices.deleteCarTypology(int id)
+        async void ICarTypologiesServices.deleteCarTypology(int id)
         {
-            carTypology carTypology = _context.carTypologies.FirstOrDefault(c => c.Id == id);
+            carTypology carTypology = await _context.carTypologies.FirstOrDefaultAsync(c => c.Id == id);
             if (carTypology == null)
             {
                 throw new Exception($"Typology car with id: {id} not found");
             }
 
             _context.Remove(carTypology);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
-        void ICarTypologiesServices.updateCarTypology(carTypology model)
+        async void ICarTypologiesServices.updateCarTypology(carTypology model)
         {
-            carTypology carTypology = _context.carTypologies.FirstOrDefault(c => c.Id == model.Id);
+            carTypology carTypology = await _context.carTypologies.FirstOrDefaultAsync(c => c.Id == model.Id);
             if (carTypology == null)
             {
                 throw new Exception($"Typology car with id: {model.Id} not found");
             }
-            carTypology alreadyExist = _context.carTypologies.FirstOrDefault(c => c.description.ToLower() == model.description.ToLower());
+            carTypology alreadyExist = await _context.carTypologies.FirstOrDefaultAsync(c => c.description.ToLower() == model.description.ToLower());
             if (alreadyExist != null)
             {
                 throw new Exception($"Typology car with description:{model.description} already exist");
             }
             carTypology.description = model.description;
             _context.Update(carTypology);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
     }
 }

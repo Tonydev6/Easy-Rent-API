@@ -16,7 +16,7 @@ namespace Easy_Rent_API.Controllers.Locations
         }
 
         [HttpPost]
-        public IActionResult AddLocation(InsertLocation model)
+        public async Task <IActionResult> AddLocation(InsertLocation model)
         {
             if (!ModelState.IsValid)
             {
@@ -35,12 +35,12 @@ namespace Easy_Rent_API.Controllers.Locations
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetLocationById(ulong id)
+        public async Task <IActionResult> GetLocationById(ulong id)
         {
             Location result;
             try
             {
-                result = _locationsServices.GetLocationById(id);
+                result = await _locationsServices.GetLocationById(id);
             }
             catch (Exception ex)
             {
@@ -51,13 +51,13 @@ namespace Easy_Rent_API.Controllers.Locations
         }
 
         [HttpGet]
-        public IActionResult GetAllLocations()
+        public async Task <IActionResult> GetAllLocations()
         {
-            return Ok(_locationsServices.GetAllLocations());
+            return Ok(await _locationsServices.GetAllLocations());
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateLocation(ulong id, InsertLocation model)
+        public async Task  <IActionResult> UpdateLocation(ulong id, InsertLocation model)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace Easy_Rent_API.Controllers.Locations
         }
 
         [HttpDelete]
-        public IActionResult DeleteLocation(ulong id)
+        public async Task <IActionResult> DeleteLocation(ulong id)
         {
             if (!ModelState.IsValid)
             {

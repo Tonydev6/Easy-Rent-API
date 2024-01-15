@@ -29,31 +29,31 @@ namespace Easy_Rent_API.Services.Locations
            
         }
 
-        IEnumerable ILocationsServices.GetAllLocations()
+        async Task<IEnumerable> ILocationsServices.GetAllLocations()
         {
-            return _context.locations.ToList();
+            return (IEnumerable)_context.locations.ToListAsync();
         }
 
-        Location ILocationsServices.GetLocationById(ulong id)
+        async Task<Location> ILocationsServices.GetLocationById(ulong id)
         {
-            Location found = _context.locations.FirstOrDefault(l => l.Id == id);
+            Location found = await _context.locations.FirstOrDefaultAsync(l => l.Id == id);
             if (found == null) throw new Exception($"Location with id{id} not found");
 
             return found;
         }
 
-        void ILocationsServices.RemoveLocation(ulong id)
+        async void ILocationsServices.RemoveLocation(ulong id)
         {
-            Location found = _context.locations.FirstOrDefault(l => l.Id == id);
+            Location found = await _context.locations.FirstOrDefaultAsync(l => l.Id == id);
             if (found == null) throw new Exception($"Location with id{id} not found");
 
             _context.locations.Remove(found);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
-        void ILocationsServices.UpdateLocation(ulong id, InsertLocation model)
+        async void ILocationsServices.UpdateLocation(ulong id, InsertLocation model)
         {
-            Location found = _context.locations.FirstOrDefault(l => l.Id == id);
+            Location found = await _context.locations.FirstOrDefaultAsync(l => l.Id == id);
             if (found == null) throw new Exception($"Location with id{id} not found");
 
             found.city = model.city;
@@ -63,7 +63,7 @@ namespace Easy_Rent_API.Services.Locations
             found.postalCode = model.postalCode;
 
             _context.Update(found);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
     }
 }

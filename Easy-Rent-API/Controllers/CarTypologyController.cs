@@ -15,7 +15,7 @@ namespace Easy_Rent_API.Controllers
 
         }
         [HttpPost]
-        public IActionResult AddCarTypology([FromQuery] string carTypology)
+        public async Task <IActionResult> AddCarTypology([FromQuery] string carTypology)
         {
 
             if (string.IsNullOrEmpty(carTypology))
@@ -36,13 +36,13 @@ namespace Easy_Rent_API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCarTypology()
+        public async Task <IActionResult> GetCarTypology()
         {
             return Ok(_services.getCartypologies());
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteCarTypology(int id)
+        public async Task <IActionResult> DeleteCarTypology(int id)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Easy_Rent_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateCarTypology(carTypology model)
+        public async Task <IActionResult> UpdateCarTypology(carTypology model)
         {
             if (!ModelState.IsValid)
             {

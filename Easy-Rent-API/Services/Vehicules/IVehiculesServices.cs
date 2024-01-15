@@ -8,9 +8,9 @@ namespace Easy_Rent_API.Services.Vehicules
     public interface IVehiculesServices
     {
         public void AddVehicule(InsertVehicule vehicule);
-        public IEnumerable GetAllVehicules();
+        public Task <IEnumerable> GetAllVehicules();
 
-        public Vehicule GetVehiculeById(ulong id);    
+        public Task<Vehicule> GetVehiculeById(ulong id);    
 
         public void UpdateVehicule(ulong id, InsertVehicule vehicule);
         public void RemoveVehicule(ulong id);

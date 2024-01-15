@@ -1,5 +1,6 @@
 ﻿using Easy_Rent_API.Context;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Easy_Rent_API.Controllers
 {
@@ -14,9 +15,9 @@ namespace Easy_Rent_API.Controllers
             _context = context;
         }
         [HttpGet]
-        public IActionResult GetAllTransmissions()
+        public async Task <IActionResult>  GetAllTransmissions()
         {
-            return Ok(_context.transmitions.ToList());
+            return Ok(_context.transmitions.ToListAsync());
         }
     }
 }

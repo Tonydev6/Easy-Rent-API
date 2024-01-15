@@ -17,7 +17,7 @@ namespace Easy_Rent_API.Controllers
 
 
         [HttpPost("{input}")]
-        public ActionResult AddPowerSource(string input)
+        public async Task <IActionResult> AddPowerSource(string input)
         {
             if (string.IsNullOrEmpty(input))
             {
@@ -36,13 +36,13 @@ namespace Easy_Rent_API.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetPowerSource()
+        public async Task<IActionResult> GetPowerSource()
         {
-            return Ok(_services.GetAllPowerSources());
+            return Ok(await _services.GetAllPowerSources());
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdatePowerSource(PowerSource model)
+        public async Task <IActionResult> UpdatePowerSource(PowerSource model)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace Easy_Rent_API.Controllers
             return Ok("Power Source Updated with success");
         }
         [HttpDelete("{id}")]
-        public ActionResult DeletePowerSource(int id)
+        public async Task <IActionResult> DeletePowerSource(int id)
         {
             try
             {
