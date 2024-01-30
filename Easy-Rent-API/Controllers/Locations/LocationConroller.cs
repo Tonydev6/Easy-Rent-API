@@ -22,16 +22,17 @@ namespace Easy_Rent_API.Controllers.Locations
             {
                 return BadRequest("Model not valid");
             }
+            string res = null;
             try
             {
-                _locationsServices.AddLocation(model);
+              res = await  _locationsServices.AddLocation(model);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok("Location addesd with success");
+            return Ok(res);
         }
 
         [HttpGet("{id}")]
@@ -63,16 +64,17 @@ namespace Easy_Rent_API.Controllers.Locations
             {
                 return BadRequest("Model not valid");
             }
+            string res = null;
             try
             {
-                _locationsServices.UpdateLocation(id, model);
+                res = await _locationsServices.UpdateLocation(id, model);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok("Location updated with success");
+            return Ok(res);
 
         }
 
@@ -83,16 +85,17 @@ namespace Easy_Rent_API.Controllers.Locations
             {
                 return BadRequest("Model not valid");
             }
+            string res = null;
             try
             {
-                _locationsServices.RemoveLocation(id);
+               res = await _locationsServices.RemoveLocation(id);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok("Location deleted with success");
+            return Ok(res);
 
         }
 

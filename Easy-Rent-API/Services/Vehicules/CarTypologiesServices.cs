@@ -16,10 +16,10 @@ namespace Easy_Rent_API.Services.Vehicules
         {
             _context = context;
         }
-        async void ICarTypologiesServices.addCarTypology(string carTypology)
+        async Task<string> ICarTypologiesServices.addCarTypology(string carTypology)
 
         {
-            carTypology alreadyExist =await _context.carTypologies.FirstOrDefaultAsync(c => c.description == carTypology);
+            carTypology alreadyExist = await _context.carTypologies.FirstOrDefaultAsync(c => c.description == carTypology);
 
             if (alreadyExist != null)
             {
@@ -30,15 +30,17 @@ namespace Easy_Rent_API.Services.Vehicules
             insertTypology.description = carTypology;
             try
             {
-                _context.AddAsync(insertTypology);
-                _context.SaveChangesAsync();
+                await _context.AddAsync(insertTypology);
+                await _context.SaveChangesAsync();
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Something went wrong");
-                return;
+                return "errore";
             }
+
+            return "Car typology created with success";
 
 
 
@@ -51,7 +53,7 @@ namespace Easy_Rent_API.Services.Vehicules
         }
 
 
-        async void ICarTypologiesServices.deleteCarTypology(int id)
+        async Task<string> ICarTypologiesServices.deleteCarTypology(int id)
         {
             carTypology carTypology = await _context.carTypologies.FirstOrDefaultAsync(c => c.Id == id);
             if (carTypology == null)
@@ -60,10 +62,11 @@ namespace Easy_Rent_API.Services.Vehicules
             }
 
             _context.Remove(carTypology);
-            _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
+            return "Car typology deleted with success";
         }
 
-        async void ICarTypologiesServices.updateCarTypology(carTypology model)
+        async Task<string> ICarTypologiesServices.updateCarTypology(carTypology model)
         {
             carTypology carTypology = await _context.carTypologies.FirstOrDefaultAsync(c => c.Id == model.Id);
             if (carTypology == null)
@@ -77,7 +80,9 @@ namespace Easy_Rent_API.Services.Vehicules
             }
             carTypology.description = model.description;
             _context.Update(carTypology);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+
+            return "Typology Car updated with success";
         }
     }
 }

@@ -23,22 +23,22 @@ namespace Easy_Rent_API.Controllers
             {
                 return BadRequest("Model not valid");
             }
-
+            string res = null;
             try
             {
-                _services.AddVehicule(model);
+                res = await _services.AddVehicule(model);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-            return Ok("Vehicule inserted with success");
+            return Ok(res);
         }
 
         [HttpGet]
         public async Task <IActionResult> GetAllVehicules()
         {
-            return Ok(_services.GetAllVehicules());
+            return Ok(await _services.GetAllVehicules());
         }
 
         [HttpGet("{id}")]

@@ -5,12 +5,12 @@ namespace Easy_Rent_API.Services.Locations
 {
     public interface ILocationsServices
     {
-        public void AddLocation(InsertLocation model);
+        public Task<string> AddLocation(InsertLocation model);
         public Task <IEnumerable> GetAllLocations();
         public Task <Location> GetLocationById(ulong id);
 
-        public void UpdateLocation(ulong id, InsertLocation model);
-        public void RemoveLocation(ulong id);
+        public Task<string> UpdateLocation(ulong id, InsertLocation model);
+        public Task<string> RemoveLocation(ulong id);
 
 
 

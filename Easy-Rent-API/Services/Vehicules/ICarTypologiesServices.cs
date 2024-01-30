@@ -6,10 +6,10 @@ namespace Easy_Rent_API.Services.Vehicules
 {
     public interface ICarTypologiesServices
     {
-        public void addCarTypology (string carTypology);
+        public Task<string> addCarTypology (string carTypology);
         public Task <IEnumerable> getCartypologies ();
-        public void updateCarTypology(carTypology model);
-        public void deleteCarTypology(int id);
+        public Task<string> updateCarTypology(carTypology model);
+        public Task<string> deleteCarTypology(int id);
 
     }
 }

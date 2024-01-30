@@ -23,37 +23,39 @@ namespace Easy_Rent_API.Controllers
                 return BadRequest("Typology required");
             }
 
+            string res = null;
             try
             {
-                this._services.addCarTypology(carTypology);
+                 res = await this._services.addCarTypology(carTypology);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok("Car typology created with success");
+            return Ok(res);
         }
 
         [HttpGet]
         public async Task <IActionResult> GetCarTypology()
         {
-            return Ok(_services.getCartypologies());
+            return Ok(await _services.getCartypologies());
         }
 
         [HttpDelete("{id}")]
         public async Task <IActionResult> DeleteCarTypology(int id)
         {
+            string res = null;
             try
             {
-                _services.deleteCarTypology(id);
+                res = await _services.deleteCarTypology(id);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok("Car typology deleted with success");
+            return Ok(res);
         }
 
         [HttpPut("{id}")]
@@ -64,16 +66,18 @@ namespace Easy_Rent_API.Controllers
                 return BadRequest("Model not valid");
             }
 
+            string res = null;
+
             try
             {
-                _services.updateCarTypology(model);
+                res = await _services.updateCarTypology(model);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok("Typology Car updated with success");
+            return Ok(res);
         }
     }
 

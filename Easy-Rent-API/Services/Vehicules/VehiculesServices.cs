@@ -16,7 +16,7 @@ namespace Easy_Rent_API.Services.Vehicules
         {
             _context = context;
         }
-        async void IVehiculesServices.AddVehicule(InsertVehicule model)
+        async Task<string> IVehiculesServices.AddVehicule(InsertVehicule model)
         {
             PowerSource powerSource = await _context.powerSources.FirstOrDefaultAsync(p => p.Id == model.powerSourceId);
             if (powerSource == null)
@@ -52,8 +52,8 @@ namespace Easy_Rent_API.Services.Vehicules
             insert.powerSource = powerSource;
             insert.typology = carTypology;
 
-            _context.AddAsync(insert);
-            _context.SaveChangesAsync();
+            await _context.AddAsync(insert);
+            await _context.SaveChangesAsync();
 
 
         }
@@ -81,7 +81,7 @@ namespace Easy_Rent_API.Services.Vehicules
             _context.SaveChangesAsync();
         }
 
-        async void IVehiculesServices.UpdateVehicule(ulong id, InsertVehicule model)
+        async Task<string> IVehiculesServices.UpdateVehicule(ulong id, InsertVehicule model)
         {
             Vehicule Found = await _context.Vehicules.FirstOrDefaultAsync(v => v.id == id);
             if (Found == null) throw new Exception($"Vehicule with id:{id} not found");
@@ -121,7 +121,8 @@ namespace Easy_Rent_API.Services.Vehicules
             Found.typology = carTypology;
 
             _context.Update(Found);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return "Vehicule updated with success";
         }
     }
 }

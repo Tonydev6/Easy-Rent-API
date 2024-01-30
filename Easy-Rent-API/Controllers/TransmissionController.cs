@@ -17,7 +17,7 @@ namespace Easy_Rent_API.Controllers
         [HttpGet]
         public async Task <IActionResult>  GetAllTransmissions()
         {
-            return Ok(_context.transmitions.ToListAsync());
+            return Ok(await _context.transmitions.ToListAsync());
         }
     }
 }
