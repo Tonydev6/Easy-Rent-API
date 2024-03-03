@@ -19,9 +19,9 @@ namespace Easy_Rent_API.Services.Vehicules
         async Task<string> ICarTypologiesServices.addCarTypology(string carTypology)
 
         {
-            carTypology alreadyExist = await _context.carTypologies.FirstOrDefaultAsync(c => c.description == carTypology);
+            bool alreadyExist = await _context.carTypologies.AnyAsync(c => c.description.ToLower() == carTypology.ToLower());
 
-            if (alreadyExist != null)
+            if (alreadyExist )
             {
                 throw new Exception("This car Typology already exist");
             }

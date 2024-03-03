@@ -59,31 +59,33 @@ namespace Easy_Rent_API.Controllers
         [HttpPut("{id}")]
         public async Task <IActionResult> UpdateVehicule(ulong id, InsertVehicule model)
         {
+            string res = null;
             try
             {
-                _services.UpdateVehicule(id, model);
+                 res =  await _services.UpdateVehicule(id, model);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
 
-            return Ok("Vehicule updated with success");
+            return Ok(res);
         }
 
         [HttpDelete("{id}")]
         public async Task <IActionResult> DeleteVehicule(ulong id)
         {
+            string res = null;
             try
             {
-                _services.RemoveVehicule(id);
+                res = await _services.RemoveVehicule(id);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
 
-            return Ok("Vehicule deleted with success");
+            return Ok(res);
         }
     }
 

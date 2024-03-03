@@ -36,9 +36,9 @@ namespace Easy_Rent_API.Services.Vehicules
             {
                 throw new Exception("Transmission not found");
             }
-            Vehicule plateAlreadyExist = await _context.Vehicules.FirstOrDefaultAsync(v => v.plate == model.plate);
+            bool plateAlreadyExist = await _context.Vehicules.AnyAsync(v => v.plate == model.plate);
 
-            if (plateAlreadyExist != null)
+            if (plateAlreadyExist)
             {
                 throw new Exception("Vehicule with that plate already exist");
             }
@@ -54,7 +54,7 @@ namespace Easy_Rent_API.Services.Vehicules
 
             await _context.AddAsync(insert);
             await _context.SaveChangesAsync();
-
+            return "Vehicule added with success";
 
         }
 
@@ -72,13 +72,15 @@ namespace Easy_Rent_API.Services.Vehicules
 
         }
 
-        async void IVehiculesServices.RemoveVehicule(ulong id)
+        async Task<string> IVehiculesServices.RemoveVehicule(ulong id)
         {
             Vehicule Found = await _context.Vehicules.FirstOrDefaultAsync(v => v.id == id);
             if (Found == null) throw new Exception($"Vehicule with id:{id} not found");
 
             _context.Remove(Found);
             _context.SaveChangesAsync();
+
+            return "Vehicule deleted with success";
         }
 
         async Task<string> IVehiculesServices.UpdateVehicule(ulong id, InsertVehicule model)
