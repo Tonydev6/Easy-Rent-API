@@ -15,33 +15,39 @@ namespace Easy_Rent_API.Controllers.Locations
             _locationsServices = services;
         }
 
-        [HttpPost]
-        public async Task <IActionResult> AddLocation(InsertLocation model)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Add(InsertLocation model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Model not valid");
             }
-            string res = null;
             try
             {
-              res = await  _locationsServices.AddLocation(model);
+                bool res = await _locationsServices.Add(model);
+                if (res)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok(res);
         }
 
-        [HttpGet("{id}")]
-        public async Task <IActionResult> GetLocationById(ulong id)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> Get(ulong id)
         {
             Location result;
             try
             {
-                result = await _locationsServices.GetLocationById(id);
+                result = await _locationsServices.Get(id);
             }
             catch (Exception ex)
             {
@@ -51,51 +57,63 @@ namespace Easy_Rent_API.Controllers.Locations
             return Ok(result);
         }
 
-        [HttpGet]
-        public async Task <IActionResult> GetAllLocations()
+        [HttpGet("[action]")]
+        public async Task<IActionResult> List
+            ()
         {
-            return Ok(await _locationsServices.GetAllLocations());
+            return Ok(await _locationsServices.List());
         }
 
-        [HttpPut("{id}")]
-        public async Task  <IActionResult> UpdateLocation(ulong id, InsertLocation model)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> Update(ulong id, InsertLocation model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Model not valid");
             }
-            string res = null;
             try
             {
-                res = await _locationsServices.UpdateLocation(id, model);
+                bool res = await _locationsServices.Update(id, model);
+                if (res)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok(res);
 
         }
 
-        [HttpDelete]
-        public async Task <IActionResult> DeleteLocation(ulong id)
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> Delete(ulong id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Model not valid");
             }
-            string res = null;
             try
             {
-               res = await _locationsServices.RemoveLocation(id);
+                bool res = await _locationsServices.Remove(id);
+                if (res)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
-            return Ok(res);
 
         }
 

@@ -16,38 +16,37 @@ namespace Easy_Rent_API.Controllers
             _services = services;
         }
 
-        [HttpPost]
-        public async Task <IActionResult> AddVehicule(InsertVehicule model)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Insert(InsertVehicule model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Model not valid");
             }
-            string res = null;
             try
             {
-                res = await _services.AddVehicule(model);
+                bool res = await _services.Add(model);
+                return Ok(res);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-            return Ok(res);
         }
 
-        [HttpGet]
-        public async Task <IActionResult> GetAllVehicules()
+        [HttpGet("[action]")]
+        public async Task<IActionResult> List()
         {
-            return Ok(await _services.GetAllVehicules());
+            return Ok(await _services.List());
         }
 
-        [HttpGet("{id}")]
-        public async Task <IActionResult> GetVehicule(ulong id)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> Get(ulong id)
         {
             Vehicule result = new Vehicule();
             try
             {
-                result = await _services.GetVehiculeById(id);
+                result = await _services.GetByID(id);
             }
             catch (Exception e)
             {
@@ -56,36 +55,49 @@ namespace Easy_Rent_API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
-        public async Task <IActionResult> UpdateVehicule(ulong id, InsertVehicule model)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> Update(ulong id, InsertVehicule model)
         {
-            string res = null;
             try
             {
-                 res =  await _services.UpdateVehicule(id, model);
+                bool res = await _services.Update(id, model);
+                if (res)
+                {
+                    return Ok(res);
+                }
+                else
+
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
 
-            return Ok(res);
         }
 
-        [HttpDelete("{id}")]
-        public async Task <IActionResult> DeleteVehicule(ulong id)
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> Delete(ulong id)
         {
-            string res = null;
             try
             {
-                res = await _services.RemoveVehicule(id);
+                bool res = await _services.Delete(id);
+                if (res)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
 
-            return Ok(res);
         }
     }
 

@@ -5,9 +5,9 @@ namespace Easy_Rent_API.Services.Vehicules
 {
     public interface IPowerSourcesServices
     {
-        public void AddPowerSource(string input);
-        public void RemovePowerSource(int id);
-        public Task <IEnumerable> GetAllPowerSources();
-        public void UpdatePowerSources(PowerSource model);
+        public Task<bool> Add(string input);
+        public Task<bool> Remove(int id);
+        public Task<IEnumerable> List();
+        public Task<bool> Update(PowerSource model);
     }
 }

@@ -16,8 +16,8 @@ namespace Easy_Rent_API.Controllers
         }
 
 
-        [HttpPost("{input}")]
-        public async Task <IActionResult> AddPowerSource(string input)
+        [HttpPost("[action]")]
+        public async Task <IActionResult> Add(string input)
         {
             if (string.IsNullOrEmpty(input))
             {
@@ -25,7 +25,7 @@ namespace Easy_Rent_API.Controllers
             }
             try
             {
-                _services.AddPowerSource(input);
+                _services.Add(input);
             }
             catch (Exception e)
             {
@@ -35,14 +35,14 @@ namespace Easy_Rent_API.Controllers
             return Ok("Power Source created with success");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetPowerSource()
+        [HttpGet("[action]")]
+        public async Task<IActionResult> List()
         {
-            return Ok(await _services.GetAllPowerSources());
+            return Ok(await _services.List());
         }
 
-        [HttpPut("{id}")]
-        public async Task <IActionResult> UpdatePowerSource(PowerSource model)
+        [HttpPut("[action]")]
+        public async Task <IActionResult> Update(PowerSource model)
         {
             if (!ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace Easy_Rent_API.Controllers
             }
             try
             {
-                _services.UpdatePowerSources(model);
+                _services.Update(model);
             }
             catch (Exception e)
             {
@@ -59,12 +59,12 @@ namespace Easy_Rent_API.Controllers
 
             return Ok("Power Source Updated with success");
         }
-        [HttpDelete("{id}")]
-        public async Task <IActionResult> DeletePowerSource(int id)
+        [HttpDelete("[action]")]
+        public async Task <IActionResult> Update(int id)
         {
             try
             {
-                _services.RemovePowerSource(id);
+                _services.Remove(id);
             }
             catch (Exception e)
             {

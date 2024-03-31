@@ -14,8 +14,8 @@ namespace Easy_Rent_API.Controllers
         {
             _context = context;
         }
-        [HttpGet]
-        public async Task <IActionResult>  GetAllTransmissions()
+        [HttpGet("[action]")]
+        public async Task <IActionResult>  List()
         {
             return Ok(await _context.transmitions.ToListAsync());
         }

@@ -15,59 +15,87 @@ namespace Easy_Rent_API.Services.Locations
         {
             _context = context;
         }
-        async Task<string> ILocationsServices.AddLocation(InsertLocation model)
+        public async Task<bool> Add(InsertLocation model)
         {
-            Location location = new Location();
-            location.region = model.region;
-            location.country = model.country;
-            location.postalCode = model.postalCode;
-            location.city = model.city; 
-            location.streetName = model.streetName;
+            try
+            {
+                Location location = new Location()
+                {
+                    region = model.region,
+                    country = model.country,
+                    postalCode = model.postalCode,
+                    city = model.city,
+                    streetName = model.streetName,
 
-            _context.Add(location);
-            await _context.SaveChangesAsync();
+                };
 
-            return "Location addesd with success";
-           
+                _context.Add(location);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return false;
+            }
         }
 
-        async Task<IEnumerable> ILocationsServices.GetAllLocations()
+        public async Task<IEnumerable> List()
         {
-            return  (IEnumerable) await _context.locations.ToListAsync();
+            return await _context.locations.ToListAsync();
         }
 
-        async Task<Location> ILocationsServices.GetLocationById(ulong id)
+        public async Task<Location> Get(ulong id)
         {
-            Location found = await _context.locations.FirstOrDefaultAsync(l => l.Id == id);
-            if (found == null) throw new Exception($"Location with id{id} not found");
+            Location found = await _context.locations.FindAsync(id);
+            if (found == null) return new Location();
 
             return found;
         }
 
-        async Task<string> ILocationsServices.RemoveLocation(ulong id)
+        public async Task<bool> Remove(ulong id)
         {
-            Location found = await _context.locations.FirstOrDefaultAsync(l => l.Id == id);
-            if (found == null) throw new Exception($"Location with id{id} not found");
+            try
+            {
+                Location found = await Get(id);
 
-            _context.locations.Remove(found);
-            await _context.SaveChangesAsync();
-            return "Location deleted with success";
+                if (found.Id != id) return false;
+
+                _context.locations.Remove(found);
+                return await _context.SaveChangesAsync() > 0;
+
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return false;
+            }
         }
 
-        async Task<string> ILocationsServices.UpdateLocation(ulong id, InsertLocation model)
+        public async Task<bool> Update(ulong id, InsertLocation model)
         {
-            Location found = await _context.locations.FirstOrDefaultAsync(l => l.Id == id);
-            if (found == null) throw new Exception($"Location with id{id} not found");
+            try
+            {
+                Location found = await _context.locations.FirstOrDefaultAsync(l => l.Id == id);
+                if (found == null)
+                {
+                    return false;
+                }
 
-            found.city = model.city;
-            found.streetName = model.streetName;
-            found.country = model.country;
-            found.region = model.region;
-            found.postalCode = model.postalCode;
+                found.city = model.city;
+                found.streetName = model.streetName;
+                found.country = model.country;
+                found.region = model.region;
+                found.postalCode = model.postalCode;
 
-            _context.Update(found);
-            await _context.SaveChangesAsync();
-            return "Location updated with success";
+                _context.Update(found);
+               return await _context.SaveChangesAsync() > 0;
+
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return false;
+            }
 
         }
     }

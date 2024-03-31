@@ -16,36 +16,34 @@ namespace Easy_Rent_API.Services.Vehicules
         {
             _context = context;
         }
-        async Task<string> ICarTypologiesServices.addCarTypology(string carTypology)
+        public async Task<bool> Add(string carTypology)
 
         {
-            bool alreadyExist = await _context.carTypologies.AnyAsync(c => c.description.ToLower() == carTypology.ToLower());
-
-            if (alreadyExist )
-            {
-                throw new Exception("This car Typology already exist");
-            }
-            carTypology insertTypology = new carTypology();
-
-            insertTypology.description = carTypology;
             try
             {
+                bool alreadyExist = await _context.carTypologies.AnyAsync(c => c.description.ToLower() == carTypology.ToLower());
+
+                if (alreadyExist)
+                {
+                    return false;
+                }
+                carTypology insertTypology = new carTypology()
+                {
+                    description = carTypology,
+                };
+
                 await _context.AddAsync(insertTypology);
-                await _context.SaveChangesAsync();
+                return await _context.SaveChangesAsync() > 0;
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Something went wrong");
-                return "errore";
+                _ = ex.Message;
+                return false;
             }
 
-            return "Car typology created with success";
-
-
-
         }
-        async Task <IEnumerable> ICarTypologiesServices.getCartypologies()
+        public async Task<IEnumerable> List()
         {
             List<carTypology> carTypologies = await _context.carTypologies.ToListAsync();
 
@@ -53,36 +51,54 @@ namespace Easy_Rent_API.Services.Vehicules
         }
 
 
-        async Task<string> ICarTypologiesServices.deleteCarTypology(int id)
+        public async Task<bool> Delete(short id)
         {
-            carTypology carTypology = await _context.carTypologies.FirstOrDefaultAsync(c => c.Id == id);
-            if (carTypology == null)
+            try
             {
-                throw new Exception($"Typology car with id: {id} not found");
+                carTypology carTypology = await _context.carTypologies.FindAsync(id);
+                if (carTypology == null)
+                {
+                    return false;
+                }
+
+                _context.Remove(carTypology);
+                return await _context.SaveChangesAsync() > 0;
+
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return false;
             }
 
-            _context.Remove(carTypology);
-           await _context.SaveChangesAsync();
-            return "Car typology deleted with success";
         }
 
-        async Task<string> ICarTypologiesServices.updateCarTypology(carTypology model)
+        public async Task<bool> Update(carTypology model)
         {
-            carTypology carTypology = await _context.carTypologies.FirstOrDefaultAsync(c => c.Id == model.Id);
-            if (carTypology == null)
+            try
             {
-                throw new Exception($"Typology car with id: {model.Id} not found");
-            }
-            carTypology alreadyExist = await _context.carTypologies.FirstOrDefaultAsync(c => c.description.ToLower() == model.description.ToLower());
-            if (alreadyExist != null)
-            {
-                throw new Exception($"Typology car with description:{model.description} already exist");
-            }
-            carTypology.description = model.description;
-            _context.Update(carTypology);
-            await _context.SaveChangesAsync();
+                carTypology carTypology = await _context.carTypologies.FindAsync(model.Id);
+                if (carTypology == null)
+                {
 
-            return "Typology Car updated with success";
+                    return false;
+                }
+                carTypology alreadyExist = await _context.carTypologies.FirstOrDefaultAsync(c => c.description.ToLower() == model.description.ToLower());
+                if (alreadyExist != null)
+                {
+                    return false;
+                }
+                carTypology.description = model.description;
+                _context.Update(carTypology);
+                return await _context.SaveChangesAsync() > 0;
+
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return false;
+            }
+
         }
     }
 }

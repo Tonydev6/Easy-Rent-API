@@ -14,8 +14,8 @@ namespace Easy_Rent_API.Controllers
             this._services = services;
 
         }
-        [HttpPost]
-        public async Task <IActionResult> AddCarTypology([FromQuery] string carTypology)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Add([FromQuery] string carTypology)
         {
 
             if (string.IsNullOrEmpty(carTypology))
@@ -23,61 +23,80 @@ namespace Easy_Rent_API.Controllers
                 return BadRequest("Typology required");
             }
 
-            string res = null;
             try
             {
-                 res = await this._services.addCarTypology(carTypology);
+                bool res = await this._services.Add(carTypology);
+                if (res)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok(res);
         }
 
-        [HttpGet]
-        public async Task <IActionResult> GetCarTypology()
+        [HttpGet("[action]")]
+        public async Task<IActionResult> List()
         {
-            return Ok(await _services.getCartypologies());
+            return Ok(await _services.List());
         }
 
-        [HttpDelete("{id}")]
-        public async Task <IActionResult> DeleteCarTypology(int id)
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> Delete(int id)
         {
-            string res = null;
             try
             {
-                res = await _services.deleteCarTypology(id);
+                bool res = await _services.Delete((short)id);
+                if (res)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok(res);
         }
 
-        [HttpPut("{id}")]
-        public async Task <IActionResult> UpdateCarTypology(carTypology model)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> Update(carTypology model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Model not valid");
             }
 
-            string res = null;
 
             try
             {
-                res = await _services.updateCarTypology(model);
+                bool res = await _services.Update(model);
+                if (res)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-            return Ok(res);
         }
     }
 

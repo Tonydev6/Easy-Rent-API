@@ -13,57 +13,83 @@ namespace Easy_Rent_API.Services.Vehicules
         {
             _context = context;
         }
-        async void IPowerSourcesServices.AddPowerSource(string input)
+        public async Task<bool> Add(string input)
         {
-            PowerSource alreadyExist =  await _context.powerSources.FirstOrDefaultAsync(p => p.description.ToLower() == input.ToLower());
-            if (alreadyExist != null)
+            try
             {
-                throw new Exception("This Power Source already exist");
-            }
-            PowerSource powerSource = new PowerSource();
-            powerSource.description = input;
+                PowerSource alreadyExist = await _context.powerSources.FirstOrDefaultAsync(p => p.description.ToLower() == input.ToLower());
+                if (alreadyExist != null)
+                {
+                    return false;
+                }
+                PowerSource powerSource = new PowerSource();
+                powerSource.description = input;
 
-            _context.AddAsync(powerSource);
-            _context.SaveChangesAsync();
+                _context.AddAsync(powerSource);
+                return await _context.SaveChangesAsync() > 0;
+
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return false;
+            }
 
         }
 
-        async Task<IEnumerable> IPowerSourcesServices.GetAllPowerSources()
+        public async Task<IEnumerable> List()
         {
             return await _context.powerSources.ToListAsync();
         }
 
-        async void IPowerSourcesServices.RemovePowerSource(int id)
+        public async Task<bool> Remove(int id)
         {
-            PowerSource powerSources = await _context.powerSources.FirstOrDefaultAsync(p => p.Id == id);
-
-            if (powerSources == null)
+            try
             {
-                throw new Exception($"Power Source with id:{id} not found");
+                PowerSource powerSources = await _context.powerSources.FindAsync(id);
+
+                if (powerSources == null)
+                {
+                    return false;
+                }
+                _context.powerSources.Remove(powerSources);
+                return await _context.SaveChangesAsync() > 0;
+
             }
-            _context.powerSources.Remove(powerSources);
-            _context.SaveChangesAsync();
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return false;
+            }
         }
 
-        async void IPowerSourcesServices.UpdatePowerSources(PowerSource model)
+        public async Task<bool> Update(PowerSource model)
         {
-            PowerSource powerSources = await _context.powerSources.FirstOrDefaultAsync(p => p.Id == model.Id);
-
-            if (powerSources == null)
+            try
             {
-                throw new Exception($"Power Source with id:{model.Id} not found");
+                PowerSource powerSources = await _context.powerSources.FirstOrDefaultAsync(p => p.Id == model.Id);
+
+                if (powerSources == null)
+                {
+                    return false;
+                }
+
+
+                PowerSource alreadyExist = await _context.powerSources.FirstOrDefaultAsync(p => p.description.ToLower() == model.description.ToLower());
+                if (alreadyExist != null)
+                {
+                    return false;
+                }
+                powerSources.description = model.description;
+                _context.powerSources.Update(powerSources);
+                return await _context.SaveChangesAsync() > 0;
+
             }
-
-
-            PowerSource alreadyExist = await _context.powerSources.FirstOrDefaultAsync(p => p.description.ToLower() == model.description.ToLower());
-            if (alreadyExist != null)
+            catch (Exception ex)
             {
-                throw new Exception($"Power Source with description:{model.description} already exist");
-
+                _ = ex.Message;
+                return false;
             }
-            powerSources.description = model.description;
-            _context.powerSources.Update(powerSources);
-            _context.SaveChangesAsync();
         }
     }
 }

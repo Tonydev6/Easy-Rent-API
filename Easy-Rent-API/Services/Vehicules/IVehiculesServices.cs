@@ -7,12 +7,12 @@ namespace Easy_Rent_API.Services.Vehicules
 {
     public interface IVehiculesServices
     {
-        public Task<string> AddVehicule(InsertVehicule vehicule);
-        public Task <IEnumerable> GetAllVehicules();
+        public Task<bool> Add(InsertVehicule vehicule);
+        public Task <IEnumerable> List();
 
-        public Task<Vehicule> GetVehiculeById(ulong id);    
+        public Task<Vehicule> GetByID(ulong id);    
 
-        public Task<string> UpdateVehicule(ulong id, InsertVehicule vehicule);
-        public Task<string> RemoveVehicule(ulong id);
+        public Task<bool> Update(ulong id, InsertVehicule vehicule);
+        public Task<bool> Delete(ulong id);
     }
 }
